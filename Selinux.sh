@@ -21,3 +21,39 @@ sudo semanage user -l
 
 # To see if SElinux is enabled 
 getenforce
+
+# Enforcing Mandatory Access Control using SELinux on ubuntu
+sudo systemctl stop apparmor.service
+sudo systemctl disable apparmor.service
+
+# install the required software using below command
+sudo apt install selinux-basics auditd
+
+# Check the status of selinux
+sestatus
+
+# Check the lables and confirm that they are missing
+ls -Z /
+
+# Activate selinux
+sudo selinux-activate
+
+# Reboot the server
+sudo reboot
+
+# Check what SElinux has learned
+sudo audit2why --all | less
+
+# To enfore SElinux into enabled mode
+sudo audit2allow -all -M Name_Of_Module
+
+# To install the module as below
+sudo semodule -i Name_Of_Module.pp
+
+# To enforce it
+sudo setenforce 1
+
+# To make the enforcing permamnent
+sudo vi /etc/selinux/config
+SELINUX=enforcing
+
